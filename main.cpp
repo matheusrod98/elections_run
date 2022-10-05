@@ -1,11 +1,12 @@
 #include <iostream>
+#include <string>
 
 int main () {
 
     bool firstRun = true;
     do {
 
-        if (firstRun = true) {
+        if (firstRun == true) {
             std::cout << "Bem-vindo ao portal das eleições." << std::endl;
             firstRun = false;
         }
@@ -17,7 +18,8 @@ int main () {
         std::cout << "5 - Qual candidato está na frente" << std::endl;
         std::cout << "0 - Encerrar o programa" << std::endl;
 
-        char insertedOption = '';
+        // TODO use a char to do this, probably getchar
+        std::string insertedOption = "";
         std::getline (std::cin, insertedOption);
 
         switch(insertedOption) {
@@ -42,33 +44,3 @@ int main () {
 
     return 0;
 }
-
-while(run == true)
-        {
-    cout<<endl<<"1 = mean "<<endl;
-    cout<<"2 = max/min "<<endl;
-    cout<<"3 = sum "<<endl;
-    cout<<"4 = quit "<<endl;
-    cin >> choice;
-
-    if (choice == 1)
-    {
-        cout<<endl<<"Mean = "<<avr<<endl;
-
-    }
-    else if (choice == 2)
-    {
-        cout<<endl<<"Max = "<<max<<endl<<"Min = "<<min<<endl;
-    }
-     else if (choice == 3)
-    {
-        cout<<endl<<"Sum = "<<sum<<endl;
-    }
-    else if (choice == 4)
-    {
-        run == false;
-    }
-    else
-    {
-        cout << "Error";
-    }
