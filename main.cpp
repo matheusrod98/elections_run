@@ -20,34 +20,31 @@ int main () {
         std::cout << "4 - Maior alta e maior baixa dos candidatos" << std::endl;
         std::cout << "5 - Qual candidato está na frente" << std::endl;
         std::cout << "0 - Encerrar o programa" << std::endl;
-
         std::getline(std::cin, option);
-            
-        switch(option.at(0)) {
-            case '1':
-                std::cout << "option 1" << std::endl;
-                break;
-            case '2':
-                std::cout << "option 2" << std::endl;
-                break;
-            case '3':
-                std::cout << "option 3" << std::endl;
-                break;
-            case '4':
-                std::cout << "option 4" << std::endl;
-                break;
-            case '5':
-                std::cout << "option 5" << std::endl;
-                break;
-            case '0':
-                std::cout << "Programa encerrado." << std::endl;
-                exit (EXIT_SUCCESS);
 
-            default:
-                std::cout << "Opção inválida, tente novamente." << std::endl;
+        if (option == "1") {
+            std::cout << "Option 1" << std::endl;
         }
+        if (option == "2") {
+            std::cout << "Option 2" << std::endl;
+        }
+        if (option == "3") {
+            std::cout << "Option 3" << std::endl;
+        }
+        if (option == "4") {
+            std::cout << "Option 4" << std::endl;
+        }
+        if (option == "5") {
+            std::cout << "Option 5" << std::endl;
+        }
+        if (option == "0") {
+            std::cout << "Programa encerrado." << std::endl;
+            exit(EXIT_SUCCESS);
+        }
+        else
+            std::cout << "Opção inválida, tente novamente." << std::endl;
 
-    } while (option.at(0) != 0);
+    } while (option != "0");
 
     return 0;
 }
