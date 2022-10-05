@@ -1,1 +1,1 @@
-int generateSamples (int lowerLimit, int upperLimit);
+std::vector<int> generateSamples (int numberSamples);

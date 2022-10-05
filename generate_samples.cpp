@@ -1,10 +1,19 @@
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 
-int generateSamples (int lowerLimit, int upperLimit) {
+std::vector<int> generateSamples (int numberSamples) {
+
+    int candidateASamples = 0;
+    int candidateBSamples = 0;
+    std::vector<int> samples;
 
     srand(time(0));
-    return (rand() % (upperLimit - lowerLimit + 1)) + lowerLimit;
-    
+    candidateASamples = rand() % numberSamples;
+    candidateBSamples = numberSamples - candidateASamples;
+
+    samples.push_back(candidateASamples);
+    samples.push_back(candidateBSamples);
+    return samples;
 }
