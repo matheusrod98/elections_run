@@ -2,10 +2,16 @@
 #include <string>
 #include <cstdlib>
 
+// #include "MovingAverage.hpp"
+#include "Nacional.hpp"
+#include "Estadual.hpp"
+
 int main () {
 
     bool firstRun = true;
     std::string option = "";
+
+    Nacional nac;
 
     do {
 
@@ -23,24 +29,43 @@ int main () {
         std::getline(std::cin, option);
 
         if (option == "1") {
-            std::cout << "Option 1" << std::endl;
+            std::vector<Estadual> states = nac.getStates();
+
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                std::cout << state.getName() << " ";
+
+                std::vector<std::vector<int>> stateVotes = state.getVotes(); 
+                for (int monthIndex = 0; monthIndex < 5; monthIndex++) {
+                    std::cout << stateVotes.at(monthIndex).at(0) << " ";
+                    std::cout << stateVotes.at(monthIndex).at(1) << " ";
+                }
+                std::cout << std::endl;
+            }
+
         }
+
         if (option == "2") {
             std::cout << "Option 2" << std::endl;
         }
+
         if (option == "3") {
             std::cout << "Option 3" << std::endl;
         }
+
         if (option == "4") {
             std::cout << "Option 4" << std::endl;
         }
+
         if (option == "5") {
             std::cout << "Option 5" << std::endl;
         }
+
         if (option == "0") {
             std::cout << "Programa encerrado." << std::endl;
             exit(EXIT_SUCCESS);
         }
+
         else
             std::cout << "Opção inválida, tente novamente." << std::endl;
 

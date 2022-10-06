@@ -1,15 +1,17 @@
-#include <string>
+#ifndef _ESTADUAL_
+#define _ESTADUAL_
 
-#define MAX_SAMPLES 200000
-#define MAX_MONTHS 5
+#include <string>
+#include <vector>
 
 class Estadual {
     public:
         Estadual (std::string name);
-        std::vector getVotes;
-        std::string getName;
+        std::vector<std::vector<int>> getVotes();
+        std::string getName();
 
     private:
         std::string stateName;
-        std::vector<std::vector<int>> samplesByMonth;
+        std::vector<std::vector<int>> votesByMonth;
 };
+#endif /* _ESTADUAL_ */

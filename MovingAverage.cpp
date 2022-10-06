@@ -1,15 +1,20 @@
 #include <vector>
 
 #include "MovingAverage.hpp"
-#include "Estadual.hpp"
-#include "Nacional.hpp"
 
-std::vector<std::vector<int>> calculateStateMovingAverage () {
+MovingAverage::MovingAverage() {
+    calculateStatesMovingAverage();
+    calculateNationalMovingAverage();
+}
 
-    std::vector<std::vector<int>> stateMovingAverage;
+void calculateStateMovingAverage () {
+
+    Nacional nac;
+
+    std::vector<std::vector<int>> statesMovingAverage;
     for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
         std::vector<int> stateVotes;  
-        stateVotes = Nacional::states.at(stateIndex).getVotes;
+        stateVotes = nac.getStates().at(stateIndex).getVotes();
 
         int movingAverageCandidateA = 0;
         int movingAverageCandidateB = 0;
@@ -20,20 +25,27 @@ std::vector<std::vector<int>> calculateStateMovingAverage () {
         }
         movingAverageCandidates.push_back(movingAverageCandidateA);
         movingAverageCandidates.push_back(movingAverageCandidateB);
-        stateMovingAverage.push_back(movingAverageCandidates);
+        statesMovingAverage.push_back(movingAverageCandidates);
+    }
+}
+
+void calculateNationalMovingAverage () {
+
+    int candidateANationalMovingAverage = 0;
+    int candidateBNationalMovingAverage = 0;
+    for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+        candidateANationalMovingAverage += statesMovingAverage.at(stateIndex).at(0);
+        candidateBNationalMovingAverage += statesMovingAverage.at(stateIndex).at(1);
     }
 
-    return stateMovingAverage;
+    nationalMovingAverage.push_back(candidateANationalMovingAverage);
+    nationalMovingAverage.push_back(candidateBNationalMovingAverage);
 }
 
-std::vector<int> calculateNationalMovingAverage () {
-
-}
-
-std::vector<std::vector<int>> getStateMovingAverage () {
-    return calculateStateMovingAverage;
+std::vector<std::vector<int>> getStatesMovingAverage () {
+    return statesMovingAverage;
 }
 
 std::vector<int> getNationalMovingAverage () {
-    return calculateNationalMovingAverage;
+    return nationalMovingAverage;
 }

@@ -1,14 +1,14 @@
-#include <string>
+#include <vector>
 
 #include "Estadual.hpp"
 
 class Nacional {
     public:
-        Nacional (std::string name);
-        // std::vector<int> getNationalVotes ();
+        Nacional();
+        std::vector<int> getNationalVotes();
+	std::vector<Estadual> getStates();
 
     private:
-	// std::vector<int> nationalVotes;
+	std::vector<int> nationalVotes;
 	std::vector<Estadual> states;
-
 };
