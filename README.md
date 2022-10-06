@@ -1,5 +1,9 @@
 # How to build
-```make-clean```
+```
+make-clean
+```
 
 # How to execute
-```./first_assignment```
+```
+./first_assignment
+```
