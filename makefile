@@ -19,7 +19,7 @@ all: $(EXEC)
 $(EXEC): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
 
-.c.o:
+.cpp.o:
 	$(CC) $(CFLAGS) -c $<
 
 clean:
