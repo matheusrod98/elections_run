@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
+#include <vector>
 
 #include "Estadual.hpp"
 
@@ -9,19 +10,45 @@
 Estadual::Estadual(std::string name) {
     stateName = name;
 
-    for (int month = 0; month < MAX_MONTHS; month++) {
-        std::vector<int> candidateVotes;
+    std::vector<int> candidateAVotes;
+    for (int monthIndex = 0; monthIndex < MAX_MONTHS; monthIndex++) {
         int votes = rand() % MAX_SAMPLES;
-        candidateVotes.push_back(votes);
-        candidateVotes.push_back(MAX_SAMPLES - votes);
-	votesByMonth.push_back(candidateVotes);
+	candidateAVotes.push_back(votes);
+	        
     }
+
+    std::vector<int> candidateBVotes;
+    for (int monthIndex = 0; monthIndex < MAX_MONTHS; monthIndex++) {
+        int votes = rand() % MAX_SAMPLES;
+        candidateBVotes.push_back(MAX_SAMPLES - votes);
+	        
+    }
+    
+    candidatesVotes.push_back(candidateAVotes);
+    candidatesVotes.push_back(candidateBVotes);
 }
 
 std::string Estadual::getName() {
     return stateName;
 }
 
-std::vector<std::vector<int>> Estadual::getVotes() {
-    return votesByMonth;
+std::vector<std::vector<int>> Estadual::getSamples(int begin, int end) {
+
+    std::vector<int> tempASamples = candidatesVotes.at(0);
+    std::vector<int> candidateASamples;
+    for (int samplesIndex = begin; samplesIndex <= end; samplesIndex++) {
+        candidateASamples.push_back(tempASamples.at(samplesIndex));
+    }
+
+    std::vector<int> tempBSamples = candidatesVotes.at(1);
+    std::vector<int> candidateBSamples;
+    for (int samplesIndex = begin; samplesIndex <= end; samplesIndex++) {
+        candidateBSamples.push_back(tempBSamples.at(samplesIndex));
+    }
+
+    std::vector<std::vector<int>> candidatesSamples;	
+    candidatesSamples.push_back(candidateASamples);
+    candidatesSamples.push_back(candidateBSamples);
+    
+    return candidatesSamples;
 }

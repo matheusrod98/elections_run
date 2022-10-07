@@ -10,7 +10,7 @@ endif
 
 CFLAGS = -Wall -std=c++98
 
-OBJECTS = Estadual.o Nacional.o main.o
+OBJECTS = Estadual.o Nacional.o main.o moving_average.o
 
 EXEC = first_assignment
 
