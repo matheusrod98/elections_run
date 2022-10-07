@@ -7,10 +7,13 @@
 
 #include "moving_average.hpp"
 
+#define STABILITY_CRITERIA 0.02
+
 int main () {
 
     bool firstRun = true;
     std::string option = "";
+
     Nacional nac;
 
     do {
@@ -58,11 +61,72 @@ int main () {
         }
 
         else if (option == "2") {
-            std::cout << "Option 2" << std::endl;
+            std::vector<Estadual> states = nac.getStates();
+            std::vector<float> candidateAStability;
+            std::vector<float> candidateBStability;
+
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                std::vector<std::vector<int>> previousSamples = state.getSamples(0, 3);
+                std::vector<std::vector<int>> nextSamples = state.getSamples(0, 4);
+                candidateAStability.push_back(calculateMovingAverage(nextSamples.at(0)) / calculateMovingAverage(previousSamples.at(0)));
+                candidateBStability.push_back(calculateMovingAverage(nextSamples.at(1)) / calculateMovingAverage(previousSamples.at(1)));
+            }
+
+            std::cout << "Candidato A" << std::endl;
+            std::cout << "Alta: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if (candidateAStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Baixa: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if (candidateAStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Estabilidade: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if ((candidateAStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
+            std::cout << std::endl;
+            
+            std::cout << "Candidato B" << std::endl;
+            std::cout << "Alta: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if (candidateBStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Baixa: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if (candidateBStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Estabilidade: ";
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                if ((candidateBStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
+                    std::cout << state.getName() << " ";
+            }
+            std::cout << std::endl;
         }
 
         else if (option == "3") {
-            std::cout << "Option 3" << std::endl;
+
         }
 
         else if (option == "4") {
