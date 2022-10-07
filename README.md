@@ -1,6 +1,6 @@
 # How to build
 ```
-make-clean
+make
 ```
 
 # How to execute
