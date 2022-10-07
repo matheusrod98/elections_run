@@ -8,7 +8,7 @@ ifeq ($(cc), CLANG)
 CC = clang
 endif
 
-CFLAGS = -Wall -std=c++98
+CFLAGS = -Wall -std=c++11
 
 OBJECTS = Estadual.o Nacional.o main.o moving_average.o
 
