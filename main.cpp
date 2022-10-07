@@ -126,7 +126,38 @@ int main () {
         }
 
         else if (option == "3") {
+            std::vector<Estadual> states = nac.getStates();
 
+            float candidateAPreviousMovingAverage = 0;
+            float candidateANextMovingAverage = 0;
+            float candidateBPreviousMovingAverage = 0;
+            float candidateBNextMovingAverage = 0;
+
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                std::vector<std::vector<int>> previousSamples = state.getSamples(0, 3);
+                std::vector<std::vector<int>> nextSamples = state.getSamples(0, 4);
+                candidateAPreviousMovingAverage += calculateMovingAverage(previousSamples.at(0));
+                candidateBPreviousMovingAverage += calculateMovingAverage(previousSamples.at(1));
+                candidateANextMovingAverage += calculateMovingAverage(nextSamples.at(0));
+                candidateBNextMovingAverage += calculateMovingAverage(nextSamples.at(1));
+            }
+
+            std::cout << "Candidato A: ";
+            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
+                std::cout << "Alta" << std::endl;
+            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
+                std::cout << "Baixa" << std::endl;
+            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
+                std::cout << "Estabilidade" << std::endl;
+
+            std::cout << "Candidato B: ";
+            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
+                std::cout << "Alta" << std::endl;
+            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
+                std::cout << "Baixa" << std::endl;
+            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
+                std::cout << "Estabilidade" << std::endl;
         }
 
         else if (option == "4") {
