@@ -5,7 +5,6 @@
 class Nacional {
     public:
         Nacional();
-        std::vector<int> getNationalVotes();
 	std::vector<Estadual> getStates();
 
     private:

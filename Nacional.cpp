@@ -16,10 +16,6 @@ Nacional::Nacional() {
         states.push_back(Estadual(statesCodes.at(stateIndex)));
 }
 
-std::vector<int> Nacional::getNationalVotes() {
-   return nationalVotes; 
-}
-
 std::vector<Estadual> Nacional::getStates() {
     return states;
 }
