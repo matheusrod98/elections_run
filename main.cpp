@@ -29,7 +29,6 @@ int main () {
         std::cout << "3 - Alta, baixa e estabilidade dos candidatos no país" << std::endl;
         std::cout << "4 - Maior alta e maior baixa dos candidatos" << std::endl;
         std::cout << "5 - Qual candidato está na frente" << std::endl;
-        std::cout << "6 - Mostrar a base de dados" << std::endl;
         std::cout << "0 - Encerrar o programa" << std::endl;
         std::cout << "Por favor, selecione uma das opções abaixo: ";
         std::getline(std::cin, option);
@@ -205,24 +204,25 @@ int main () {
         }
 
         else if (option == "5") {
-            std::cout << "Option 5" << std::endl;
-        }
+            int candidateALastMonth = 0;
+            int candidateBLastMonth = 0;
 
-        else if (option == "6") {
             std::vector<Estadual> states = nac.getStates();
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> samples = state.getSamples(0, 4);
-                std::cout << state.getName() << "  ";
-
-                std::vector<int> candidateASamples = samples.at(0);
-                std::vector<int> candidateBSamples = samples.at(1);
-                for (int monthIndex = 0; monthIndex < 5; monthIndex++) {
-                    std::cout << candidateASamples.at(monthIndex) << "  ";
-                    std::cout << candidateBSamples.at(monthIndex) << "  ";
-                } 
-                std::cout << std::endl;
+                std::vector<std::vector<int>> samples = state.getSamples(4, 4);
+                candidateALastMonth += calculateMovingAverage(samples.at(0));
+                candidateBLastMonth += calculateMovingAverage(samples.at(1));
             }
+
+            if (candidateALastMonth > candidateBLastMonth)
+                std::cout << "O candidato A está na frente com: " << candidateALastMonth << " votos." << std::endl;
+
+            else if (candidateALastMonth < candidateBLastMonth) 
+                std::cout << "O candidato B está na frente com: " << candidateBLastMonth << " votos." << std::endl;
+
+            else
+                std::cout << "Os candidatos estão empatados" << std::endl;
         }
 
         else if (option == "0") {
