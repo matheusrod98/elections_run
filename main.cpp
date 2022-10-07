@@ -8,6 +8,7 @@
 #include "moving_average.hpp"
 
 #define STABILITY_CRITERIA 0.02
+#define MAX_SAMPLES 200000
 
 int main () {
 
@@ -161,7 +162,46 @@ int main () {
         }
 
         else if (option == "4") {
-            std::cout << "Option 4" << std::endl;
+
+            std::vector<Estadual> states = nac.getStates();
+            int highestACandidate = 0;
+            int lowestACandidate = MAX_SAMPLES;
+            int highestBCandidate = 0;
+            int lowestBCandidate = MAX_SAMPLES;
+            std::string highestACandidateState;
+            std::string lowestACandidateState;
+            std::string highestBCandidateState;
+            std::string lowestBCandidateState;
+
+            for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
+                Estadual state = states.at(stateIndex);
+                std::vector<std::vector<int>> samples = state.getSamples(0, 4);
+
+                if (highestACandidate < calculateMovingAverage(samples.at(0))) {
+                    highestACandidate = calculateMovingAverage(samples.at(0));
+                    highestACandidateState = state.getName();
+                }
+
+                if (lowestACandidate > calculateMovingAverage(samples.at(0))) {
+                    lowestACandidate = calculateMovingAverage(samples.at(0));
+                    lowestACandidateState = state.getName();
+                }
+
+                if (highestBCandidate < calculateMovingAverage(samples.at(1))) {
+                    highestBCandidate = calculateMovingAverage(samples.at(1));
+                    highestBCandidateState = state.getName();
+                }   
+
+                if (lowestBCandidate > calculateMovingAverage(samples.at(1))) {
+                    lowestBCandidate = calculateMovingAverage(samples.at(1));
+                    lowestBCandidateState = state.getName();
+                }
+            }
+
+            std::cout << "Maior alta do candidato A: " << highestACandidateState <<  " - " << highestACandidate << std::endl;
+            std::cout << "Maior baixa do candidato A: " << lowestACandidateState << " - " << lowestACandidate << std::endl << std::endl;
+            std::cout << "Maior alta do candidato B: " << highestBCandidateState <<  " - " << highestBCandidate << std::endl;
+            std::cout << "Maior baixa do candidato B: " << lowestBCandidateState << " - " << lowestBCandidate << std::endl;
         }
 
         else if (option == "5") {
