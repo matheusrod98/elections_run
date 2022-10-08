@@ -7,7 +7,7 @@
 
 #include "moving_average.hpp"
 
-#define STABILITY_CRITERIA 0.5
+#define STABILITY 0.02
 #define MAX_SAMPLES 200000
 
 using namespace std;
@@ -79,7 +79,7 @@ int main () {
             cout << "Alta: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if (candidateAStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
+                if (candidateAStability.at(stateIndex) - STABILITY > 1 + STABILITY)
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -87,7 +87,7 @@ int main () {
             cout << "Baixa: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if (candidateAStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
+                if (candidateAStability.at(stateIndex) - STABILITY < 1 - STABILITY)
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -95,7 +95,9 @@ int main () {
             cout << "Estabilidade: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if ((candidateAStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
+                if (candidateAStability.at(stateIndex) - STABILITY <= 1 + STABILITY &&
+                    candidateAStability.at(stateIndex) - STABILITY >= 1 - STABILITY)
+                    
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -105,7 +107,7 @@ int main () {
             cout << "Alta: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if (candidateBStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
+                if (candidateBStability.at(stateIndex) - STABILITY > 1 + STABILITY)
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -113,7 +115,7 @@ int main () {
             cout << "Baixa: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if (candidateBStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
+                if (candidateBStability.at(stateIndex) - STABILITY < 1 - STABILITY)
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -121,7 +123,8 @@ int main () {
             cout << "Estabilidade: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                if ((candidateBStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
+                if (candidateBStability.at(stateIndex) - STABILITY <= 1 + STABILITY &&
+                    candidateBStability.at(stateIndex) - STABILITY >= 1 - STABILITY)
                     cout << state.getName() << " ";
             }
             cout << endl;
@@ -146,19 +149,19 @@ int main () {
             }
 
             cout << "Candidato A: ";
-            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
+            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - STABILITY > (1 + STABILITY))
                 cout << "Alta" << endl;
-            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
+            else if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - STABILITY < (1 - STABILITY))
                 cout << "Baixa" << endl;
-            if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
+            else
                 cout << "Estabilidade" << endl;
 
             cout << "Candidato B: ";
-            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
+            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - STABILITY > (1 + STABILITY))
                 cout << "Alta" << endl;
-            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
+            else if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - STABILITY < (1 - STABILITY))
                 cout << "Baixa" << endl;
-            if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
+            else
                 cout << "Estabilidade" << endl;
         }
 
