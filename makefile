@@ -5,7 +5,7 @@ CC = g++
 endif
 
 ifeq ($(cc), CLANG)
-CC = clang
+CC = clang++
 endif
 
 CFLAGS = -Wall -std=c++11

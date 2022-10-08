@@ -4,7 +4,7 @@
 
 float calculateMovingAverage(std::vector<int> samples) {
     float movingAverage = 0;
-    for (int sampleIndex = 0; sampleIndex < samples.size(); sampleIndex++){
+    for (unsigned int sampleIndex = 0; sampleIndex < samples.size(); sampleIndex++){
         movingAverage += samples.at(sampleIndex) / samples.size();
     } 
     
