@@ -1,3 +1,5 @@
 #include <vector>
 
-float calculateMovingAverage(std::vector<int> samples);
+using namespace std;
+
+float calculateMovingAverage(vector<int> samples);

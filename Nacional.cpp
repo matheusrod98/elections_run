@@ -4,8 +4,10 @@
 
 #include "Nacional.hpp"
 
+using namespace std;
+
 Nacional::Nacional() {
-    std::vector<std::string> statesCodes = { "AC", "AL", "AM", "AP", "BA", "CE", 
+    vector<string> statesCodes = { "AC", "AL", "AM", "AP", "BA", "CE", 
 				        "DF", "ES", "GO", "MA", "MG", "MS",
 				        "MT", "PA", "PB", "PE", "PI", "PR",
 				        "RJ", "RN", "RO", "RR", "RS", "SC",
@@ -16,6 +18,6 @@ Nacional::Nacional() {
         states.push_back(Estadual(statesCodes.at(stateIndex)));
 }
 
-std::vector<Estadual> Nacional::getStates() {
+vector<Estadual> Nacional::getStates() {
     return states;
 }

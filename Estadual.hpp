@@ -4,14 +4,16 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Estadual {
     public:
-        Estadual(std::string name);
-        std::vector<std::vector<int>> getSamples(int begin, int end);
-        std::string getName();
+        Estadual(string name);
+        vector<vector<int>> getSamples(int begin, int end);
+        string getName();
 
     private:
-        std::string stateName;
-        std::vector<std::vector<int>> candidatesVotes;
+        string stateName;
+        vector<vector<int>> candidatesVotes;
 };
 #endif /* _ESTADUAL_ */

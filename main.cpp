@@ -7,126 +7,128 @@
 
 #include "moving_average.hpp"
 
-#define STABILITY_CRITERIA 0.02
+#define STABILITY_CRITERIA 0.5
 #define MAX_SAMPLES 200000
+
+using namespace std;
 
 int main () {
 
     bool firstRun = true;
-    std::string option = "";
+    string option = "";
 
     Nacional nac;
 
     do {
 
         if (firstRun == true) {
-            std::cout << "Bem-vindo ao portal das eleições presidenciais!" << std::endl;
+            cout << "Bem-vindo ao portal das eleições presidenciais!" << endl;
             firstRun = false;
         }
-        std::cout << std::endl;
-        std::cout << "1 - Evolução média das intenções de voto" << std::endl;
-        std::cout << "2 - Alta, baixa e estabilidade dos candidatos por estado" << std::endl;
-        std::cout << "3 - Alta, baixa e estabilidade dos candidatos no país" << std::endl;
-        std::cout << "4 - Maior alta e maior baixa dos candidatos" << std::endl;
-        std::cout << "5 - Qual candidato está na frente" << std::endl;
-        std::cout << "0 - Encerrar o programa" << std::endl;
-        std::cout << "Por favor, selecione uma das opções abaixo: ";
-        std::getline(std::cin, option);
+        cout << endl;
+        cout << "1 - Evolução média das intenções de voto" << endl;
+        cout << "2 - Alta, baixa e estabilidade dos candidatos por estado" << endl;
+        cout << "3 - Alta, baixa e estabilidade dos candidatos no país" << endl;
+        cout << "4 - Maior alta e maior baixa dos candidatos" << endl;
+        cout << "5 - Qual candidato está na frente" << endl;
+        cout << "0 - Encerrar o programa" << endl;
+        cout << "Por favor, selecione uma das opções abaixo: ";
+        getline(cin, option);
 
-        std::cout << std::endl;
+        cout << endl;
         if (option == "1") {
 
-            std::cout << "ESTADO    " << "Candidato A    " << "Candidato B    " << std::endl;
+            cout << "ESTADO    " << "Candidato A    " << "Candidato B    " << endl;
                         
-            std::vector<Estadual> states = nac.getStates();
+            vector<Estadual> states = nac.getStates();
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> samples = state.getSamples(0, 4);
-                std::cout << state.getName() << "         ";
-                std::cout << calculateMovingAverage(samples.at(0)) << "          ";
-                std::cout << calculateMovingAverage(samples.at(1)) << std::endl;
+                vector<vector<int>> samples = state.getSamples(0, 4);
+                cout << state.getName() << "         ";
+                cout << calculateMovingAverage(samples.at(0)) << "          ";
+                cout << calculateMovingAverage(samples.at(1)) << endl;
             }
 
             float candidateAMovingAverage = 0;
             float candidateBMovingAverage = 0;
-            std::cout << "BRASIL     ";
+            cout << "BRASIL     ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> samples = state.getSamples(0, 4);
+                vector<vector<int>> samples = state.getSamples(0, 4);
                 candidateAMovingAverage += calculateMovingAverage(samples.at(0));
                 candidateBMovingAverage += calculateMovingAverage(samples.at(1));
             }
-            std::cout << candidateAMovingAverage / 26 << "        ";
-            std::cout << candidateBMovingAverage / 26 << std::endl;
+            cout << candidateAMovingAverage / 26 << "        ";
+            cout << candidateBMovingAverage / 26 << endl;
         }
 
         else if (option == "2") {
-            std::vector<Estadual> states = nac.getStates();
-            std::vector<float> candidateAStability;
-            std::vector<float> candidateBStability;
+            vector<Estadual> states = nac.getStates();
+            vector<float> candidateAStability;
+            vector<float> candidateBStability;
 
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> previousSamples = state.getSamples(0, 3);
-                std::vector<std::vector<int>> nextSamples = state.getSamples(0, 4);
+                vector<vector<int>> previousSamples = state.getSamples(0, 3);
+                vector<vector<int>> nextSamples = state.getSamples(0, 4);
                 candidateAStability.push_back(calculateMovingAverage(nextSamples.at(0)) / calculateMovingAverage(previousSamples.at(0)));
                 candidateBStability.push_back(calculateMovingAverage(nextSamples.at(1)) / calculateMovingAverage(previousSamples.at(1)));
             }
 
-            std::cout << "Candidato A" << std::endl;
-            std::cout << "Alta: ";
+            cout << "Candidato A" << endl;
+            cout << "Alta: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if (candidateAStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
+            cout << endl;
 
-            std::cout << "Baixa: ";
+            cout << "Baixa: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if (candidateAStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
+            cout << endl;
 
-            std::cout << "Estabilidade: ";
+            cout << "Estabilidade: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if ((candidateAStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
-            std::cout << std::endl;
+            cout << endl;
+            cout << endl;
             
-            std::cout << "Candidato B" << std::endl;
-            std::cout << "Alta: ";
+            cout << "Candidato B" << endl;
+            cout << "Alta: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if (candidateBStability.at(stateIndex) - 1 > STABILITY_CRITERIA)
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
+            cout << endl;
 
-            std::cout << "Baixa: ";
+            cout << "Baixa: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if (candidateBStability.at(stateIndex) - 1 < STABILITY_CRITERIA)
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
+            cout << endl;
 
-            std::cout << "Estabilidade: ";
+            cout << "Estabilidade: ";
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
                 if ((candidateBStability.at(stateIndex) - 1 == STABILITY_CRITERIA))
-                    std::cout << state.getName() << " ";
+                    cout << state.getName() << " ";
             }
-            std::cout << std::endl;
+            cout << endl;
         }
 
         else if (option == "3") {
-            std::vector<Estadual> states = nac.getStates();
+            vector<Estadual> states = nac.getStates();
 
             float candidateAPreviousMovingAverage = 0;
             float candidateANextMovingAverage = 0;
@@ -135,46 +137,46 @@ int main () {
 
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> previousSamples = state.getSamples(0, 3);
-                std::vector<std::vector<int>> nextSamples = state.getSamples(0, 4);
+                vector<vector<int>> previousSamples = state.getSamples(0, 3);
+                vector<vector<int>> nextSamples = state.getSamples(0, 4);
                 candidateAPreviousMovingAverage += calculateMovingAverage(previousSamples.at(0));
                 candidateBPreviousMovingAverage += calculateMovingAverage(previousSamples.at(1));
                 candidateANextMovingAverage += calculateMovingAverage(nextSamples.at(0));
                 candidateBNextMovingAverage += calculateMovingAverage(nextSamples.at(1));
             }
 
-            std::cout << "Candidato A: ";
+            cout << "Candidato A: ";
             if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
-                std::cout << "Alta" << std::endl;
+                cout << "Alta" << endl;
             if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
-                std::cout << "Baixa" << std::endl;
+                cout << "Baixa" << endl;
             if ((candidateANextMovingAverage / candidateAPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
-                std::cout << "Estabilidade" << std::endl;
+                cout << "Estabilidade" << endl;
 
-            std::cout << "Candidato B: ";
+            cout << "Candidato B: ";
             if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 > STABILITY_CRITERIA) 
-                std::cout << "Alta" << std::endl;
+                cout << "Alta" << endl;
             if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 < STABILITY_CRITERIA)
-                std::cout << "Baixa" << std::endl;
+                cout << "Baixa" << endl;
             if ((candidateBNextMovingAverage / candidateBPreviousMovingAverage) - 1 == STABILITY_CRITERIA)
-                std::cout << "Estabilidade" << std::endl;
+                cout << "Estabilidade" << endl;
         }
 
         else if (option == "4") {
 
-            std::vector<Estadual> states = nac.getStates();
+            vector<Estadual> states = nac.getStates();
             int highestACandidate = 0;
             int lowestACandidate = MAX_SAMPLES;
             int highestBCandidate = 0;
             int lowestBCandidate = MAX_SAMPLES;
-            std::string highestACandidateState;
-            std::string lowestACandidateState;
-            std::string highestBCandidateState;
-            std::string lowestBCandidateState;
+            string highestACandidateState;
+            string lowestACandidateState;
+            string highestBCandidateState;
+            string lowestBCandidateState;
 
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> samples = state.getSamples(0, 4);
+                vector<vector<int>> samples = state.getSamples(0, 4);
 
                 if (highestACandidate < calculateMovingAverage(samples.at(0))) {
                     highestACandidate = calculateMovingAverage(samples.at(0));
@@ -197,41 +199,41 @@ int main () {
                 }
             }
 
-            std::cout << "Maior alta do candidato A: " << highestACandidateState <<  " - " << highestACandidate << std::endl;
-            std::cout << "Maior baixa do candidato A: " << lowestACandidateState << " - " << lowestACandidate << std::endl << std::endl;
-            std::cout << "Maior alta do candidato B: " << highestBCandidateState <<  " - " << highestBCandidate << std::endl;
-            std::cout << "Maior baixa do candidato B: " << lowestBCandidateState << " - " << lowestBCandidate << std::endl;
+            cout << "Maior alta do candidato A: " << highestACandidateState <<  " - " << highestACandidate << endl;
+            cout << "Maior baixa do candidato A: " << lowestACandidateState << " - " << lowestACandidate << endl << endl;
+            cout << "Maior alta do candidato B: " << highestBCandidateState <<  " - " << highestBCandidate << endl;
+            cout << "Maior baixa do candidato B: " << lowestBCandidateState << " - " << lowestBCandidate << endl;
         }
 
         else if (option == "5") {
             int candidateALastMonth = 0;
             int candidateBLastMonth = 0;
 
-            std::vector<Estadual> states = nac.getStates();
+            vector<Estadual> states = nac.getStates();
             for (int stateIndex = 0; stateIndex < 26; stateIndex++) {
                 Estadual state = states.at(stateIndex);
-                std::vector<std::vector<int>> samples = state.getSamples(4, 4);
+                vector<vector<int>> samples = state.getSamples(4, 4);
                 candidateALastMonth += calculateMovingAverage(samples.at(0));
                 candidateBLastMonth += calculateMovingAverage(samples.at(1));
             }
 
             if (candidateALastMonth > candidateBLastMonth)
-                std::cout << "O candidato A está na frente com: " << candidateALastMonth << " votos." << std::endl;
+                cout << "O candidato A está na frente com: " << candidateALastMonth << " votos." << endl;
 
             else if (candidateALastMonth < candidateBLastMonth) 
-                std::cout << "O candidato B está na frente com: " << candidateBLastMonth << " votos." << std::endl;
+                cout << "O candidato B está na frente com: " << candidateBLastMonth << " votos." << endl;
 
             else
-                std::cout << "Os candidatos estão empatados" << std::endl;
+                cout << "Os candidatos estão empatados" << endl;
         }
 
         else if (option == "0") {
-            std::cout << "Programa encerrado." << std::endl;
+            cout << "Programa encerrado." << endl;
             exit(EXIT_SUCCESS);
         }
 
         else
-            std::cout << "Opção inválida, tente novamente." << std::endl;
+            cout << "Opção inválida, tente novamente." << endl;
 
     } while (option != "0");
 

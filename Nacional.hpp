@@ -2,12 +2,14 @@
 
 #include "Estadual.hpp"
 
+using namespace std;
+
 class Nacional {
     public:
         Nacional();
-	std::vector<Estadual> getStates();
+	vector<Estadual> getStates();
 
     private:
-	std::vector<int> nationalVotes;
-	std::vector<Estadual> states;
+	vector<int> nationalVotes;
+	vector<Estadual> states;
 };
